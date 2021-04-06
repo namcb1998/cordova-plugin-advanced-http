@@ -88,6 +88,8 @@ var publicInterface = {
         return exec(onSuccess, onFail, 'CordovaHttpPlugin', options.method, [ url, data, options.serializer, headers, options.timeout ]);
       case 'upload':
         return exec(onSuccess, onFail, 'CordovaHttpPlugin', 'uploadFile', [ url, options.params, headers, options.filePath, options.name, options.timeout ]);
+      case 'uploadbinary':
+        return exec(onSuccess, onFail, 'CordovaHttpPlugin', 'uploadBinary', [ url, options.params, headers, options.filePath, options.timeout ]);
       case 'download':
         var onDownloadSuccess = helpers.injectCookieHandler(url, helpers.injectFileEntryHandler(success));
         return exec(onDownloadSuccess, onFail, 'CordovaHttpPlugin', 'downloadFile', [ url, options.params, headers, options.filePath, options.timeout ]);
@@ -115,6 +117,9 @@ var publicInterface = {
   },
   uploadFile: function (url, params, headers, filePath, name, success, failure) {
     return publicInterface.sendRequest(url, { method: 'upload', params: params, headers: headers, filePath: filePath, name: name }, success, failure);
+  },
+  uploadBinary: function (url, params, headers, filePath, success, failure) {
+    return publicInterface.sendRequest(url, { method: 'uploadBinary', params: params, headers: headers, filePath: filePath }, success, failure);
   },
   downloadFile: function (url, params, headers, filePath, success, failure) {
     return publicInterface.sendRequest(url, { method: 'download', params: params, headers: headers, filePath: filePath }, success, failure);

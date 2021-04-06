@@ -29,8 +29,10 @@ import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.Iterator;
+import java.io.IOException;
 
 import android.text.TextUtils;
+import okhttp3.Response;
 
 import com.github.kevinsawicki.http.HttpRequest;
 import com.github.kevinsawicki.http.HttpRequest.HttpRequestException;
@@ -129,6 +131,30 @@ abstract class CordovaHttp {
 
     protected void respondWithError(String msg) {
         this.respondWithError(-1, msg);
+    }
+
+    protected void returnResponseUploadBinary(Response responseData) throws HttpRequestException {
+      try {
+        String rs = responseData.body().string();
+        JSONObject response = new JSONObject();
+        JSONObject json = new JSONObject(rs);
+        int code = responseData.code();
+        if (code >= 200 && code < 300) {
+          response.put("success", json);
+          this.getCallbackContext().success(response);
+        } else {
+          response.put("error", json);
+          this.getCallbackContext().error(response);
+        }
+      } catch(JSONException e) {
+        this.respondWithError("There was an error generating the response");
+      } catch(MalformedInputException e) {
+        this.respondWithError("Could not decode response data due to malformed data");
+      } catch(CharacterCodingException e) {
+        this.respondWithError("Could not decode response data due to invalid or unknown charset encoding");
+      } catch (IOException e) {
+        this.respondWithError(e.getMessage());
+      }
     }
 
     protected void addResponseHeaders(HttpRequest request, JSONObject response) throws JSONException {

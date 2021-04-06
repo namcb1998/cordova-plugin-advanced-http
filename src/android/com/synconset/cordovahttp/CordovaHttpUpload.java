@@ -70,7 +70,7 @@ class CordovaHttpUpload extends CordovaHttp implements Runnable {
                     return;
                 }
             }
-          
+
             request.part(this.name, filename, mimeType, new File(uri));
 
             this.returnResponseObject(request);
