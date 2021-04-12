@@ -156,6 +156,67 @@
     [self.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
 }
 
+- (void)uploadBinary:(CDVInvokedUrlCommand*)command {
+    @try {
+        NSString *url = [command.arguments objectAtIndex:0];
+        NSDictionary *parameters = [command.arguments objectAtIndex:1];
+        NSDictionary *headers = [command.arguments objectAtIndex:2];
+        NSString *filePath = [command.arguments objectAtIndex: 3];
+        filePath = [filePath stringByReplacingOccurrencesOfString:@"ionic://localhost/_app_file_"
+                                             withString:@""];
+        NSError* error = nil;
+        NSData *fileData = [NSData dataWithContentsOfFile:filePath options:0 error:&error];
+        NSLog(@"Bytes:%@ with error: %@", fileData, error);
+        
+        NSMutableURLRequest* request = [[NSMutableURLRequest alloc]init];
+        [request setURL:[NSURL URLWithString:url]];
+        [request setHTTPMethod:@"POST"];
+        
+        NSString* length = [NSString stringWithFormat:@"%lu", [fileData length]]; // convert NSUnsigneINT to String
+        
+        [headers setValue:@"0" forKey:@"offset"];
+        [headers setValue:@"https://www.instagram.com" forKey:@"origin"];
+        [headers setValue:@"https://www.instagram.com/" forKey:@"referer"];
+        [headers setValue:length forKey:@"x-entity-length"];
+        [headers setValue:@"image/jpeg" forKey:@"x-entity-type"];
+        [headers setValue:@"1217981644879628" forKey:@"x-ig-app-id"];
+        [headers setValue:@"5714c4dcafaf" forKey:@"x-instagram-ajax"];
+        [headers setValue:@"image/jpeg" forKey:@"Content-Type"];
+        
+        [request setAllHTTPHeaderFields:headers];
+        [request setHTTPBody:fileData];
+        
+        CordovaHttpPlugin* __weak weakSelf = self;
+        
+        NSError*error2 = [[NSError alloc] init];
+        
+        NSHTTPURLResponse*response = nil;
+        
+        NSData* nsResponse = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error2];
+        
+        NSDictionary* responseJson = [NSJSONSerialization JSONObjectWithData:nsResponse options:0 error:&error];
+        
+        if ([response statusCode] >=200 && [response statusCode] <300) {
+
+            NSDictionary *dictionary = @{@"success":responseJson};
+            
+            CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:dictionary];
+            [weakSelf.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+            [[SDNetworkActivityIndicator sharedActivityIndicator] stopActivity];
+        } else {
+            NSDictionary *dictionary = @{@"error":responseJson};
+            
+            CDVPluginResult *pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsDictionary:dictionary];
+            [weakSelf.commandDelegate sendPluginResult:pluginResult callbackId:command.callbackId];
+            [[SDNetworkActivityIndicator sharedActivityIndicator] stopActivity];
+        }
+    }
+    @catch (NSException *exception) {
+        [[SDNetworkActivityIndicator sharedActivityIndicator] stopActivity];
+        [self handleException:exception withCommand:command];
+    }
+}
+
 - (void)post:(CDVInvokedUrlCommand*)command {
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     manager.securityPolicy = securityPolicy;

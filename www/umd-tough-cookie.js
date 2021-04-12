@@ -116,7 +116,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	// (see: https://github.com/ChromiumWebApps/chromium/blob/b3d3b4da8bb94c1b2e061600df106d590fda3620/net/cookies/parsed_cookie.cc#L64)
 	var COOKIE_PAIR = /^(([^=;]+))\s*=\s*([^\n\r\0]*)/;
 
-	// Used to parse non-RFC-compliant cookies like.ts '=abc' when given the `loose`
+	// Used to parse non-RFC-compliant cookies like '=abc' when given the `loose`
 	// option in Cookie.parse:
 	var LOOSE_COOKIE_PAIR = /^((?:=)?([^=;]*)\s*=\s*)?([^\n\r\0]*)/;
 
@@ -1546,7 +1546,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  var rest = url;
 
 	  // trim before proceeding.
-	  // This is to support parse stuff like.ts "  http://foo.com  \n"
+	  // This is to support parse stuff like "  http://foo.com  \n"
 	  rest = rest.trim();
 
 	  var proto = protocolPattern.exec(rest);
@@ -1873,7 +1873,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return result;
 	  }
 
-	  // hrefs like.ts //foo/bar always cut to the protocol.
+	  // hrefs like //foo/bar always cut to the protocol.
 	  if (relative.slashes && !relative.protocol) {
 	    // take everything except the protocol from relative
 	    Object.keys(relative).forEach(function(k) {
@@ -1881,7 +1881,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        result[k] = relative[k];
 	    });
 
-	    //urlParse appends trailing / to urls like.ts http://www.example.com
+	    //urlParse appends trailing / to urls like http://www.example.com
 	    if (slashedProtocol[result.protocol] &&
 	        result.hostname && !result.pathname) {
 	      result.path = result.pathname = '/';
@@ -1950,7 +1950,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      psychotic = result.protocol && !slashedProtocol[result.protocol];
 
 	  // if the url is a non-slashed url, then relative
-	  // links like.ts ../.. should be able
+	  // links like ../.. should be able
 	  // to crawl up to the hostname, as well.  This is strange.
 	  // result.protocol has already been set by now.
 	  // Later on, put the first path part into the host field.
@@ -1994,12 +1994,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	    result.query = relative.query;
 	  } else if (!isNullOrUndefined(relative.search)) {
 	    // just pull out the search.
-	    // like.ts href='?foo'.
+	    // like href='?foo'.
 	    // Put this after the other two cases because it simplifies the booleans
 	    if (psychotic) {
 	      result.hostname = result.host = srcPath.shift();
 	      //occationaly the auth can get stuck only in host
-	      //this especialy happens in cases like.ts
+	      //this especialy happens in cases like
 	      //url.resolveObject('mailto:local1@domain1', 'local2@domain2')
 	      var authInHost = result.host && result.host.indexOf('@') > 0 ?
 	                       result.host.split('@') : false;
@@ -2081,7 +2081,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    result.hostname = result.host = isAbsolute ? '' :
 	                                    srcPath.length ? srcPath.shift() : '';
 	    //occationaly the auth can get stuck only in host
-	    //this especialy happens in cases like.ts
+	    //this especialy happens in cases like
 	    //url.resolveObject('mailto:local1@domain1', 'local2@domain2')
 	    var authInHost = result.host && result.host.indexOf('@') > 0 ?
 	                     result.host.split('@') : false;
@@ -2235,7 +2235,7 @@ return /******/ (function(modules) { // webpackBootstrap
 		}
 
 		/**
-		 * A simple `Array#map`-like.ts wrapper to work with domain name strings or email
+		 * A simple `Array#map`-like wrapper to work with domain name strings or email
 		 * addresses.
 		 * @private
 		 * @param {String} domain The domain name or email address.
@@ -2655,8 +2655,8 @@ return /******/ (function(modules) { // webpackBootstrap
 		};
 
 		/** Expose `punycode` */
-		// Some AMD build optimizers, like.ts r.js, check for specific condition patterns
-		// like.ts the following:
+		// Some AMD build optimizers, like r.js, check for specific condition patterns
+		// like the following:
 		if (
 			true
 		) {
@@ -3056,7 +3056,7 @@ return /******/ (function(modules) { // webpackBootstrap
 		}
 
 		/**
-		 * A simple `Array#map`-like.ts wrapper to work with domain name strings or email
+		 * A simple `Array#map`-like wrapper to work with domain name strings or email
 		 * addresses.
 		 * @private
 		 * @param {String} domain The domain name or email address.
@@ -3476,8 +3476,8 @@ return /******/ (function(modules) { // webpackBootstrap
 		};
 
 		/** Expose `punycode` */
-		// Some AMD build optimizers, like.ts r.js, check for specific condition patterns
-		// like.ts the following:
+		// Some AMD build optimizers, like r.js, check for specific condition patterns
+		// like the following:
 		if (
 			true
 		) {

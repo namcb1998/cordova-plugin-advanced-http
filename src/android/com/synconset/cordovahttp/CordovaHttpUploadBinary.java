@@ -1,6 +1,3 @@
-/**
- * A HTTP plugin for Cordova / Phonegap
- */
 package com.synconset.cordovahttp;
 
 import android.webkit.MimeTypeMap;

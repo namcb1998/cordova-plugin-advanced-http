@@ -89,7 +89,7 @@ var publicInterface = {
       case 'upload':
         return exec(onSuccess, onFail, 'CordovaHttpPlugin', 'uploadFile', [ url, options.params, headers, options.filePath, options.name, options.timeout ]);
       case 'uploadbinary':
-        return exec(onSuccess, onFail, 'CordovaHttpPlugin', 'uploadBinary', [ url, options.params, headers, options.filePath, options.timeout ]);
+          return exec(onSuccess, onFail, 'CordovaHttpPlugin', 'uploadBinary', [ url, options.params, headers, options.filePath, options.timeout ]);
       case 'download':
         var onDownloadSuccess = helpers.injectCookieHandler(url, helpers.injectFileEntryHandler(success));
         return exec(onDownloadSuccess, onFail, 'CordovaHttpPlugin', 'downloadFile', [ url, options.params, headers, options.filePath, options.timeout ]);
